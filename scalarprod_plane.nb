@@ -1,0 +1,80 @@
+a = Table[RandomReal[{-5, 5}], {i, 1, 2}];
+a = Append[a, 5];
+b = Table[RandomReal[{-5, 5}], {i, 1, 2}];
+b = Append[b, 5];
+c = Table[RandomReal[{-5, 5}], {i, 1, 2}];
+c = Append[c, 5];
+d = Table[RandomReal[{-5, 5}], {i, 1, 2}];
+d = Append[d, 5];
+p = Table[RandomReal[{-5, 5}], {i, 1, 2}];
+p = Append[p, 5];
+Cross[c - a, b - a]
+Manipulate[
+ Grid[{
+   {Text[Style[
+      "What is relationship between \!\(\*OverscriptBox[\(AR\), \(\
+\[RightVector]\)]\) and the normal vector to the plane?", 
+      FontSize -> 24]]},
+   {If[ToggleNormalA, 
+     Text[Style[
+       "\!\(\*OverscriptBox[\(AR\), \
+\(\[RightVector]\)]\).\!\(\*UnderscriptBox[\(n\), \(_\)]\)=0", 
+       FontSize -> 24]], ""]},
+   {Show[
+     Plot3D[5, {x, -10, 10}, {y, -10, 10}, AspectRatio -> 1, 
+      Boxed -> False, Mesh -> False, Axes -> False, 
+      PlotStyle -> Opacity[0.4], ImageSize -> {800, 600}],
+     Graphics3D[{PointSize[0.03], Red, 
+       Point[a]}],(*Point KNOWN on the plane*)
+     If[ToggleHelperPoints, 
+      Graphics3D[{PointSize[0.03], Yellow, Point[b]}], 
+      Graphics3D[{PointSize[0], 
+        Point[{0, 0, -10}]}]],(*Helper points *)
+     If[ToggleHelperPoints, 
+      Graphics3D[{PointSize[0.03], Yellow, Point[c]}], 
+      Graphics3D[{PointSize[0], Point[{0, 0, -10}]}]],
+     If[ToggleHelperPoints, 
+      Graphics3D[{PointSize[0.03], Yellow, Point[d]}], 
+      Graphics3D[{PointSize[0], Point[{0, 0, -10}]}]],
+     If[ToggleHelperPoints, Graphics3D[Text["B", b]], 
+      Graphics3D[{PointSize[0], Point[{0, 0, -10}]}]],
+     If[ToggleHelperPoints, Graphics3D[Text["C", c]], 
+      Graphics3D[{PointSize[0], Point[{0, 0, -10}]}]],
+     If[ToggleHelperPoints, Graphics3D[Text["D", d]], 
+      Graphics3D[{PointSize[0], Point[{0, 0, -10}]}]],
+     If[ToggleHelperVectorsA, 
+      Graphics3D[{Black, {Arrowheads[Large], Arrow[{a, b}]}}], 
+      Graphics3D[{PointSize[0], Point[{0, 0, -10}]}]],
+     If[ToggleHelperVectorsA, 
+      Graphics3D[{Black, {Arrowheads[Large], Arrow[{a, c}]}}], 
+      Graphics3D[{PointSize[0], Point[{0, 0, -10}]}]],
+     Graphics3D[Text["A", a]],
+     Graphics3D[Text["R", p]],
+     Graphics3D[{Red, {Arrowheads[Large], Arrow[{a, p}]}}],
+     If[ToggleNormalA, 
+      Graphics3D[{Blue, {Arrowheads[Large], 
+         Arrow[{a, a + Cross[c - a, b - a]}]}}], 
+      Graphics3D[{PointSize[0], Point[{0, 0, -10}]}]],
+     If[ToggleHelperVectorsB, 
+      Graphics3D[{Black, {Arrowheads[Large], Arrow[{b, c}]}}], 
+      Graphics3D[{PointSize[0], Point[{0, 0, -10}]}]],
+     If[ToggleHelperVectorsB, 
+      Graphics3D[{Black, {Arrowheads[Large], Arrow[{b, d}]}}], 
+      Graphics3D[{PointSize[0], Point[{0, 0, -10}]}]],
+     If[ToggleNormalB, 
+      Graphics3D[{Blue, {Arrowheads[Large], 
+         Arrow[{b, b + Cross[d - b, c - b]}]}}], 
+      Graphics3D[{PointSize[0], Point[{0, 0, -10}]}]],
+     Graphics3D[{PointSize[0.03], Cyan, 
+       Point[p]}] (*Point to Reach*)
+     ]}
+   }
+  ]
+ ,
+ {{GivenRed, True}, {False, True}},
+ {{ToggleNormalA, False}, {False, True}},
+ {{ToggleHelperPoints, False}, {False, True}},
+ {{ToggleHelperVectorsA, False}, {False, True}},
+ {{ToggleHelperVectorsB, False}, {False, True}},
+ {{ToggleNormalB, False}, {False, True}}
+ ]
